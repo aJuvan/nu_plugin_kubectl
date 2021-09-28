@@ -1,0 +1,19 @@
+[package]
+name = "nu_plugin_kubectl"
+version = "0.1.0"
+authors = ["Andraž Juvan <andraz.juvan@shekaj.si>"]
+edition = "2018"
+description = "kubectl wrapper for nu shell"
+license = "MIT"
+keywords = ["nu", "shell", "plugin", "kubernetes", "k8s", "kubectl"]
+
+
+[dependencies]
+indexmap = "1.7.0"
+nu-plugin = "~0"
+nu-protocol = "~0"
+nu-source = "~0"
+nu-errors = "~0"
+kube = "0.60.0"
+kube-runtime = "0.60.0"
+k8s-openapi = { version = "0.13.0", default-features = false, features = ["v1_22"] }
