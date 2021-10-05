@@ -1,14 +1,10 @@
-use indexmap::indexmap;
-
 use crate::Kubectl;
 
 use nu_errors::ShellError;
 use nu_plugin::Plugin;
 use nu_protocol::{
-    CallInfo, Primitive, ReturnSuccess, ReturnValue, ShellTypeName, Signature, SyntaxShape,
-    UntaggedValue, Value, Dictionary,
+	CallInfo, ReturnValue, Signature, SyntaxShape,
 };
-use nu_source::{HasSpan, SpannedItem};
 
 impl Plugin for Kubectl {
 
@@ -21,9 +17,15 @@ impl Plugin for Kubectl {
 						"Specifies kubernetes namespace. Set to 'default' if not passed.",
 						Some('n'),
 				)
+				.named(
+						"kubeconfig",
+						SyntaxShape::String,
+						"Specifies kubernetes config path.",
+						None,
+				)
 				.rest(
 						"rest",
-						SyntaxShape::String,
+						SyntaxShape::Any,
 						"subsequent kubectl commands",
 				)
 				.filter()
@@ -32,22 +34,7 @@ impl Plugin for Kubectl {
 
 	fn begin_filter(&mut self, call_info: CallInfo) -> Result<Vec<ReturnValue>, ShellError> {
 		self.parse(call_info)?;
-		Ok(self
-				.exec()?
-				.into_iter()
-				.map(|x| {
-						indexmap!{
-							String::from("int") => Value::from(UntaggedValue::int(0)),
-							String::from("str") => Value::from(x),
-						}
-				})
-				.map(|x|
-						ReturnSuccess::value(
-								UntaggedValue::Row(Dictionary::from(x))
-						)
-				)
-				.collect()
-		)
+		Ok(self.exec()?)
 	}
 
 }

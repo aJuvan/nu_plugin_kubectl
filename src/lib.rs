@@ -1,3 +1,4 @@
+mod plugins;
 mod kubectl;
 mod nu;
 

@@ -16,4 +16,6 @@ nu-source = "~0"
 nu-errors = "~0"
 kube = "0.60.0"
 kube-runtime = "0.60.0"
+serde = "1.0.130"
+serde_yaml = "0.8.13"
 k8s-openapi = { version = "0.13.0", default-features = false, features = ["v1_22"] }
